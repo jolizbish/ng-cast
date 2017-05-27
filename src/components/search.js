@@ -11,10 +11,19 @@ angular.module('video-player')
       service: '<'
     },
     controller: function() {
-      this.onButtonClick = (searchText) => {
+
+      this.search = (searchText) => {
         this.service.search(searchText, (videos) => {
           this.result(videos);
         });
+      };
+
+      this.onTextChange = _.debounce(this.search, 500);
+
+      this.onKeypress = function(event, searchText) {
+        if (event.keyCode === 13) {
+          this.search(searchText);
+        }
       };
     }
   };
