@@ -5,18 +5,21 @@ angular.module('video-player')
     restrict: 'E',
     controllerAs: 'ctrl',
     bindToController: true,
-    scope: {},
+    scope: {
+    },
     controller: function(youTube) {
-      youTube.search('', () => {});
+      this.service = youTube;
       this.currentVideo = exampleVideoData[0];
       this.videos = exampleVideoData;
-      this.onClick = (video) => {
-        this.currentVideo = video;
-      };
-      this.selectVideo = function(video) {};
-      this.searchResults = function(video) {};
+      this.selectVideo = (video) => { this.currentVideo = video; };
+      this.searchResults = (videos) => { this.videos = videos; };
+      youTube.search('cats', (videos) => {
+        this.videos = videos;
+        this.currentVideo = videos[0];
+      });
     },
     templateUrl: `src/templates/app.html`
   };
 });
 
+var youTubes;
